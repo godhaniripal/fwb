@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FaHome, FaMale, FaFemale, FaBoxOpen, FaInfoCircle, FaEnvelope } from 'react-icons/fa';
+import { UserButton, SignInButton, SignedIn, SignedOut } from '@clerk/nextjs';
 
 export default function Navbar() {
   return (
@@ -31,7 +32,16 @@ export default function Navbar() {
           <span>Contact</span>
         </Link>
       </nav>
-      <button className="cta-button">Sign Up</button>
+
+      {/* Clerk Authentication */}
+      <SignedOut>
+        <SignInButton mode="modal">
+          <button className="cta-button">Sign In</button>
+        </SignInButton>
+      </SignedOut>
+      <SignedIn>
+        <UserButton afterSignOutUrl="/" />
+      </SignedIn>
     </header>
   );
 }
