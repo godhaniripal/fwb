@@ -1,12 +1,27 @@
-import { withAuth } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs';
 
-function ProtectedPage() {
+export default function ProtectedPage() {
   return (
     <div>
-      <h1>Welcome to the Protected Page</h1>
-      <p>Only authenticated users can see this content.</p>
+      <h1>Protected Page</h1>
+      <p>This page is protected and only accessible to authenticated users.</p>
     </div>
   );
 }
 
-export default withAuth(ProtectedPage);     
+export const getServerSideProps = async (ctx) => {
+  const { userId } = auth(ctx);
+
+  if (!userId) {
+    return {
+      redirect: {
+        destination: '/sign-in', // Redirect to sign-in page if not authenticated
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {}, // Pass empty props if authenticated
+  };
+};
