@@ -1,8 +1,11 @@
 import Link from 'next/link';
-import { FaHome, FaMale, FaFemale, FaBoxOpen, FaInfoCircle, FaEnvelope } from 'react-icons/fa';
+import { FaHome, FaMale, FaFemale, FaBoxOpen, FaInfoCircle, FaEnvelope, FaShoppingCart } from 'react-icons/fa';
 import { UserButton, SignInButton, SignedIn, SignedOut } from '@clerk/nextjs';
+import { useCart } from '../context/CartContext'; // Import useCart
 
 export default function Navbar() {
+  const { cart } = useCart(); // Use the cart state from CartContext
+
   return (
     <header>
       <div className="logo">FWB</div>
@@ -30,6 +33,10 @@ export default function Navbar() {
         <Link href="#contact" className="nav-link">
           <FaEnvelope className="nav-icon" />
           <span>Contact</span>
+        </Link>
+        <Link href="/cart" className="nav-link cart-icon">
+          <FaShoppingCart className="nav-icon" />
+          {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
         </Link>
       </nav>
 
